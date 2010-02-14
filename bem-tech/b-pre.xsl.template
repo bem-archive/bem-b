@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
+    xmlns:d-xsl="b:xsl"
+    xmlns:d2-xsl="b:xsl-2"
+    xmlns:x="http://www.yandex.ru/xscript"
+    xmlns:b="b"
+    xmlns:html="b:html"
+    extension-element-prefixes="x b"
+    >
+
+<!-- {{ ALL b-pre }} -->
+
+    <xsl:output
+        encoding="UTF-8"
+        method="xml"
+        indent="yes"
+    />
+
+    <xsl:strip-space elements="*"/>
+    <xsl:preserve-space elements="xsl:text"/>
+
+    <xsl:template match="*[not(self::b:* | self::html:*)]">
+        <xsl:copy>
+            <xsl:copy-of select="@*"/>
+            <xsl:apply-templates/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="d-xsl:*" priority="10">
+        <xsl:element name="{concat('d2-xsl:', local-name())}">
+            <xsl:copy-of select="@*"/>
+            <xsl:apply-templates/>
+        </xsl:element>
+    </xsl:template>
+
+</xsl:stylesheet>
