@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-    xmlns:d-xsl="b:xsl"
-    xmlns:d2-xsl="b:xsl-2"
-    xmlns:x="http://www.yandex.ru/xscript"
-    xmlns:b="b"
-    extension-element-prefixes="x b"
-    exclude-result-prefixes="d2-xsl d-xsl"
-    >
+    xmlns:d-xsl="bem-b:xsl:dynamic"
+    xmlns:d2-xsl="bem-b:xsl:dynamic-2"
+    xmlns:bb="bem-b"
+    xmlns:tb="bem-b:template:block"
+    xmlns:te="bem-b:template:elem"
+    xmlns:tm="bem-b:template:mod"
+    xmlns:mode="bem-b:template:mode"
+    xmlns:str="http://exslt.org/strings"
+    xmlns:exslt="http://exslt.org/common"
+    exclude-result-prefixes="tb te tm d2-xsl d-xsl exslt str">
 
     <xsl:output
         encoding="UTF-8"

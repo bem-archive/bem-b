@@ -29,8 +29,10 @@ exports.buildBPreXsl = function (prefixes, outputDir, outputName) {
             xsl = fs.path(prefix + '.b.xsl');
         if (xsl.exists()) {
             var name = prefix.basename(),
+                b2xsl = prefix.dirname().join('/.' + name +'.b2xsl.xsl');
                 preXsl = prefix.dirname().join('/.' + name +'.b-pre.xsl');
-            os.command(['xsltproc -o ' + preXsl, dir.join('xsl-compiler-pre.xsl'), xsl].join(' '));
+            os.command(['xsltproc -o ' + b2xsl, dir.join('b2xsl.xsl'), xsl].join(' '));
+            os.command(['xsltproc -o ' + preXsl, dir.join('xsl-compiler-pre.xsl'), b2xsl].join(' '));
             content += this.outFile(preXsl.from(outputDir));
         }
     }, this);
@@ -43,11 +45,11 @@ exports.buildXsl = function (prefixes, outputDir, outputName, preXsl) {
     var xsls = [];
     prefixes.forEach(function (prefix) {
         var prefix = fs.path(prefix),
-            xsl = fs.path(prefix + '.b.xsl');
+            name = prefix.basename(),
+            pre = prefix.dirname().join('/.' + name +'.'),
+            xsl = fs.path(pre + 'b2xsl.xsl');
         if (xsl.exists()) {
-            var name = prefix.basename(),
-                pre = prefix.dirname().join('/.' + name +'.'),
-                tmp1 = fs.path(pre + 'tmp1.xsl'),
+            var tmp1 = fs.path(pre + 'tmp1.xsl'),
                 tmp2 = fs.path(pre + 'tmp2.xsl'),
                 res = fs.path(pre + outputName + '.xsl');
 
@@ -58,7 +60,7 @@ exports.buildXsl = function (prefixes, outputDir, outputName, preXsl) {
                 os.command(['xsltproc -o ' + tmp1, preXsl, tmp2].join(' '));
             }
             os.command(['xsltproc -o ' + res, dir.join('xsl-compiler-post.xsl'), tmp1].join(' '));
-            os.command(['rm', tmp1, tmp2]);
+            os.command(['rm', tmp1, tmp2, xsl]);
             xsls.push(res.from(outputDir));
         }
     });

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-    xmlns:d-xsl="b:xsl"
-    xmlns:d2-xsl="b:xsl-2"
-    xmlns:x="http://www.yandex.ru/xscript"
-    xmlns:b="b"
+    xmlns:d-xsl="bem-b:xsl:dynamic"
+    xmlns:d2-xsl="bem-b:xsl:dynamic-2"
+    xmlns:bb="bem-b"
+    xmlns:tb="bem-b:template:block"
+    xmlns:te="bem-b:template:elem"
+    xmlns:tm="bem-b:template:mod"
+    xmlns:mode="bem-b:template:mode"
     xmlns:str="http://exslt.org/strings"
     xmlns:exslt="http://exslt.org/common"
-    extension-element-prefixes="x str"
-    >
+    extension-element-prefixes="bb str">
 
     <xsl:output
         encoding="UTF-8"
@@ -42,6 +44,9 @@
             </xsl:for-each>
             <xsl:attribute name="exslt:bla">bla</xsl:attribute>
             <xsl:attribute name="d2-xsl:bla">bla</xsl:attribute>
+            <xsl:attribute name="tb:bla">bla</xsl:attribute>
+            <xsl:attribute name="te:bla">bla</xsl:attribute>
+            <xsl:attribute name="tm:bla">bla</xsl:attribute>
             <xsl:apply-templates/>
         </xsl:copy>
     </xsl:template>
@@ -53,7 +58,7 @@
 
     <xsl:template match="xsl:stylesheet/@exclude-result-prefixes">
         <xsl:value-of select="."/>
-        <xsl:text> d2-xsl</xsl:text>
+        <xsl:text> tb te tm d2-xsl exslt</xsl:text>
     </xsl:template>
 
     <xsl:template match="xsl:comment">

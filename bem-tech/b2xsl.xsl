@@ -9,7 +9,7 @@
     xmlns:e="bem-b:elem"
     xmlns:m="bem-b:mod"
     xmlns:mix="bem-b:mix"
-    >
+    exclude-result-prefixes="tb te tm mode">
 
     <xsl:output
         encoding="UTF-8"
@@ -33,6 +33,20 @@
 
     <xsl:template match="@*">
         <xsl:value-of select="."/>
+    </xsl:template>
+
+    <xsl:template match="e:*[not(@b)]">
+        <xsl:copy>
+            <xsl:for-each select="@*">
+                <xsl:attribute name="{name()}">
+                    <xsl:apply-templates select="."/>
+                </xsl:attribute>
+            </xsl:for-each>
+            <xsl:attribute name="b">
+                <xsl:value-of select="local-name((ancestor::b:* | ancestor::tb:*)[1])"/>
+            </xsl:attribute>
+            <xsl:apply-templates/>
+        </xsl:copy>
     </xsl:template>
 
     <xsl:template match="tb:* | te:* | tm:*">

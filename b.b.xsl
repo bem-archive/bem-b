@@ -4,9 +4,7 @@
     xmlns:b="bem-b:block"
     xmlns:e="bem-b:elem"
     xmlns:m="bem-b:mod"
-    xmlns:mix="bem-b:mix"
-    >
-
+    xmlns:mix="bem-b:mix">
 
     <xsl:template match="b:* | e:*">
         <xsl:variable name="tag">

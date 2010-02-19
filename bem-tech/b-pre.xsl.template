@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-    xmlns:d-xsl="b:xsl"
-    xmlns:d2-xsl="b:xsl-2"
-    xmlns:x="http://www.yandex.ru/xscript"
-    xmlns:b="b"
-    xmlns:html="b:html"
-    extension-element-prefixes="x b"
-    >
+    xmlns:d-xsl="bem-b:xsl:dynamic"
+    xmlns:d2-xsl="bem-b:xsl:dynamic-2"
+    xmlns:html="bem-b:html"
+    xmlns:bb="bem-b"
+    xmlns:b="bem-b:block"
+    xmlns:e="bem-b:elem"
+    xmlns:m="bem-b:mod"
+    xmlns:mix="bem-b:mix">
 
 <!-- {{ ALL b-pre }} -->
 
@@ -19,7 +20,7 @@
     <xsl:strip-space elements="*"/>
     <xsl:preserve-space elements="xsl:text"/>
 
-    <xsl:template match="*[not(self::b:* | self::html:*)]">
+    <xsl:template match="*[not(self::b:* | self::e:* | self::m:* | self::html:*)]">
         <xsl:copy>
             <xsl:copy-of select="@*"/>
             <xsl:apply-templates/>
