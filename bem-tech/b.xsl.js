@@ -2,11 +2,7 @@ var fs = require('file'),
     os = require('os'),
     dir = fs.path(module.path).dirname();
 
-exports.outFile = function (file) {
-    return '<xsl:import href="' + file + '"/>\n';
-};
-
-exports.outPrefixes = function (prefixes, outputDir, outputName) {
+exports.bemBuild = function (prefixes, outputDir, outputName) {
     var content = '';
     this
         .buildXsl(
@@ -18,8 +14,8 @@ exports.outPrefixes = function (prefixes, outputDir, outputName) {
             function (file) { content += this.outFile(file) },
             this);
     outputDir.join(outputName + '.xsl').write(
-            fs.read(dir.join('xsl.template'))
-                .replace('<!-- {{ ALL xsl }} -->', content));
+        fs.read(dir.join('xsl.template'))
+            .replace('<!-- {{ ALL xsl }} -->', content));
 };
 
 exports.buildBPreXsl = function (prefixes, outputDir, outputName) {
@@ -65,4 +61,8 @@ exports.buildXsl = function (prefixes, outputDir, outputName, preXsl) {
         }
     });
     return xsls;
+};
+
+exports.outFile = function (file) {
+    return '<xsl:import href="' + file + '"/>\n';
 };
