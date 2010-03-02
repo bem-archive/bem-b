@@ -2,6 +2,8 @@ var fs = require('file'),
     os = require('os'),
     dir = fs.path(module.path).dirname();
 
+exports.name = 'b.xsl';
+
 exports.bemBuild = function (prefixes, outputDir, outputName) {
     var content = '';
     this
@@ -61,6 +63,34 @@ exports.buildXsl = function (prefixes, outputDir, outputName, preXsl) {
         }
     });
     return xsls;
+};
+
+function indent(level) {
+    var indent = new Array(level + 1).join('    ');
+    return function(s) { return (s && indent) + s }
+}
+
+exports.newFileContent = function (vars) {
+    return [
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"',
+        '    xmlns:bb="bem-b" xmlns:b="bem-b:block" xmlns:e="bem-b:elem" xmlns:m="bem-b:mod" xmlns:mix="bem-b:mix"',
+        '    xmlns:tb="bem-b:template:block" xmlns:te="bem-b:template:elem" xmlns:tm="bem-b:template:mod" xmlns:mode="bem-b:template:mode"',
+        '    exclude-result-prefixes="tb te tm mode b e m mix">\n',
+
+        '    <tb:' + vars.BlockName + '>',
+
+        [
+            vars.ElemName? '<te:' + vars.ElemName + '>\n' : '',
+            '    <mode:tag></mode:tag>\n',
+            '    <mode:content></mode:content>\n',
+            vars.ElemName? '</te:' + vars.ElemName + '>\n' : ''
+        ].map(indent(vars.ElemName? 2 : 1)).join('') +
+
+        '    </tb:' + vars.BlockName + '>',
+
+        '\n</xsl:stylesheet>\n'
+    ].join('\n');
 };
 
 exports.outFile = function (file) {
