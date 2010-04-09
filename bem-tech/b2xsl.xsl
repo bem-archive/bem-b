@@ -57,6 +57,7 @@
         <xsl:element name="xsl:template">
             <xsl:attribute name="match">
                 <xsl:apply-templates select="." mode="match-content"/>
+                <xsl:value-of select="@match"/>
             </xsl:attribute>
             <xsl:if test="local-name() != 'default'">
                 <xsl:attribute name="mode">

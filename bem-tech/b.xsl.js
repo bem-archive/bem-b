@@ -2,7 +2,7 @@ var fs = require('file'),
     os = require('os'),
     dir = fs.path(module.path).dirname();
 
-exports.name = 'b.xsl';
+exports.techModule = module;
 
 exports.bemBuild = function (prefixes, outputDir, outputName) {
     var content = '';
