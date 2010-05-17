@@ -7,6 +7,7 @@
     xmlns:te="bem-b:template:elem"
     xmlns:tm="bem-b:template:mod"
     xmlns:mode="bem-b:template:mode"
+    xmlns:m="bem-b:mod"
     xmlns:str="http://exslt.org/strings"
     xmlns:exslt="http://exslt.org/common"
     extension-element-prefixes="bb str">
