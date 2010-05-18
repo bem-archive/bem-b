@@ -155,21 +155,31 @@
         <xsl:text>]</xsl:text>
     </xsl:template>
 
-    <!-- e:myelem[ancestor::b:myblock[@m:mod1 = 'val1']] -->
+    <!-- e:myelem[(@b = 'myblock' or not(@b)) and ancestor::b:myblock[@m:mod1 = 'val1']] -->
     <xsl:template match="te:*" mode="for-mod-block">
         <xsl:apply-templates select="." mode="single"/>
-        <xsl:text>[ancestor::</xsl:text>
+        <xsl:text>[</xsl:text>
+        <xsl:apply-templates select="ancestor::tb:*" mode="for-elem-mod-block"/>
+        <xsl:text> and ancestor::</xsl:text>
         <xsl:apply-templates select="parent::tm:*" mode="for-block"/>
         <xsl:text>]</xsl:text>
     </xsl:template>
 
-    <!-- e:myelem[@m:mymod1 = 'val1' and ancestor::b:myblock[@m:mod1 = 'val1']] -->
+    <!-- (@b = 'myblock' or not(@b)) -->
+    <xsl:template match="tb:*" mode="for-elem-mod-block">
+        <xsl:text>(@b = '</xsl:text>
+        <xsl:value-of select="local-name()"/>
+        <xsl:text>' or not(@b))</xsl:text>
+    </xsl:template>
+
+    <!-- e:myelem[@m:mymod1 = 'val1' and (@b = 'myblock' or not(@b)) and ancestor::b:myblock[@m:mod1 = 'val1']] -->
     <xsl:template match="tm:*" mode="for-elem-mod-block">
         <xsl:apply-templates select="parent::te:*" mode="single"/>
         <xsl:text>[</xsl:text>
         <xsl:apply-templates select="." mode="single"/>
         <xsl:text> and </xsl:text>
-        <xsl:text>ancestor::</xsl:text>
+        <xsl:apply-templates select="ancestor::tb:*" mode="for-elem-mod-block"/>
+        <xsl:text> and ancestor::</xsl:text>
         <xsl:apply-templates select="parent::te:*/parent::tm:*" mode="for-block"/>
         <xsl:text>]</xsl:text>
     </xsl:template>
