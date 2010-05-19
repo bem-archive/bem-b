@@ -20,7 +20,7 @@
     <xsl:strip-space elements="*"/>
     <xsl:preserve-space elements="xsl:text"/>
 
-    <xsl:template match="*">
+    <xsl:template match="*" name="default">
         <xsl:copy>
             <xsl:for-each select="@*">
                 <xsl:attribute name="{name()}">
@@ -35,18 +35,30 @@
         <xsl:value-of select="."/>
     </xsl:template>
 
-    <xsl:template match="e:*[not(@b)]">
-        <xsl:copy>
-            <xsl:for-each select="@*">
-                <xsl:attribute name="{name()}">
-                    <xsl:apply-templates select="."/>
-                </xsl:attribute>
-            </xsl:for-each>
-            <xsl:attribute name="b">
-                <xsl:value-of select="local-name((ancestor::b:* | ancestor::tb:*)[1])"/>
-            </xsl:attribute>
-            <xsl:apply-templates/>
-        </xsl:copy>
+    <xsl:template match="e:*[not(ancestor::b:*)]">
+        <xsl:variable name="block">
+            <xsl:choose>
+                <xsl:when test="@b">
+                    <xsl:value-of select="@b"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="local-name(ancestor::tb:*)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:element name="b:{$block}">
+            <xsl:attribute name="tag"/>
+            <xsl:if test="not(@b) or @b = local-name(ancestor::tb:*)">
+                <xsl:apply-templates select="ancestor::tm:*[parent::tb:*]" mode="mod"/>
+            </xsl:if>
+            <xsl:call-template name="default"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="tm:*" mode="mod">
+        <xsl:attribute name="m:{local-name()}">
+            <xsl:value-of select="@val"/>
+        </xsl:attribute>
     </xsl:template>
 
     <xsl:template match="tb:* | te:* | tm:*">

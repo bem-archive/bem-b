@@ -34,4 +34,9 @@
         </xsl:element>
     </xsl:template>
 
+    <!-- NOTE: поидее должно быть в b.b.xsl, надо разобраться с приоритетами шаблонов -->
+    <xsl:template match="b:*[@tag = ''] | e:*[@tag = '']">
+        <xsl:apply-templates/>
+    </xsl:template>
+
 </xsl:stylesheet>
