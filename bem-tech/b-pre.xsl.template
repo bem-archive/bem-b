@@ -20,7 +20,7 @@
     <xsl:strip-space elements="*"/>
     <xsl:preserve-space elements="xsl:text"/>
 
-    <xsl:template match="*[not(self::b:* | self::e:* | self::m:* | self::html:*)]">
+    <xsl:template match="*[not(self::b:* | self::e:* | self::m:* | self::mix:* | self::html:*)]">
         <xsl:copy>
             <xsl:copy-of select="@*"/>
             <xsl:apply-templates/>

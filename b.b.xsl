@@ -56,14 +56,14 @@
     </xsl:template>
 
     <xsl:template match="mix:mix" mode="bb:css-class-content">
-        <xsl:for-each select="b:* | e:*">
+        <xsl:for-each select="b:*[not(e:*)] | e:* | b:*/e:*">
             <xsl:text> </xsl:text>
             <xsl:apply-templates select="." mode="bb:css-class-content"/>
         </xsl:for-each>
     </xsl:template>
 
     <xsl:template match="b:* | e:*" mode="bb:onclick">
-        <xsl:variable name="nodes" select="self::b:* | mix:mix/b:*"/>
+        <xsl:variable name="nodes" select="self::b:* | mix:mix/b:*[not(e:*)]"/>
         <xsl:if test="$nodes">
             <xsl:attribute name="onclick">
                 <xsl:text>return {</xsl:text>
