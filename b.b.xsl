@@ -17,6 +17,10 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:template match="b:*[@tag = ''] | e:*[@tag = '']" priority="10">
+        <xsl:apply-templates/>
+    </xsl:template>
+
     <xsl:template match="b:* | e:*" mode="bb:css-class">
         <xsl:attribute name="class">
             <xsl:apply-templates select=". | mix:mix" mode="bb:css-class-content"/>
