@@ -38,7 +38,7 @@
                     <xsl:value-of select="@b"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="local-name(ancestor::b:*)"/>
+                    <xsl:value-of select="local-name(ancestor::b:*[1])"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
