@@ -39,7 +39,7 @@ exports.buildBPreXsl = function (prefixes, outputDir, outputName) {
                 .replace('<!-- {{ ALL b-pre }} -->', content));
 };
 
-exports.buildXsl = function (prefixes, outputDir, outputName, preXsl) {
+exports.buildXsl = function (prefixes, outputDir, outputName, allPreXsl) {
     var xsls = [];
     prefixes.forEach(function (prefix) {
         var prefix = fs.path(prefix),
@@ -49,16 +49,22 @@ exports.buildXsl = function (prefixes, outputDir, outputName, preXsl) {
         if (xsl.exists()) {
             var tmp1 = fs.path(pre + 'tmp1.xsl'),
                 tmp2 = fs.path(pre + 'tmp2.xsl'),
+                preXsl = fs.path(pre + 'b-pre.xsl');
                 res = fs.path(pre + outputName + '.xsl');
 
             os.command(['cp', xsl, tmp1]);
             fs.touch(tmp2);
+            var i = 0;
             while (os.command(['diff', '-q', tmp1, tmp2]) != '') {
                 os.command(['cp', tmp1, tmp2]);
-                os.command(['xsltproc -o ' + tmp1, preXsl, tmp2].join(' '));
+                os.command(['cp', tmp1, pre + 'xsl.' + (i++)]);
+                os.command(['xsltproc -o ' + tmp1, allPreXsl, tmp2].join(' '));
+
+                os.command(['xsltproc -o ' + preXsl, dir.join('xsl-compiler-post.xsl'), tmp1].join(' '));
+                os.command(['xsltproc -o ' + preXsl, dir.join('xsl-compiler-pre.xsl'), preXsl].join(' '));
             }
             os.command(['xsltproc -o ' + res, dir.join('xsl-compiler-post.xsl'), tmp1].join(' '));
-            os.command(['rm', tmp1, tmp2, xsl]);
+            //os.command(['rm', tmp1, tmp2, xsl]);
             xsls.push(res.from(outputDir));
         }
     });

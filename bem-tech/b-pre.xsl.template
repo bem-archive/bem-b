@@ -27,6 +27,28 @@
         </xsl:copy>
     </xsl:template>
 
+    <xsl:template match="*
+        [self::b:* | self::e:*]
+        [string(@xsl-inline) != 'yes']
+        [descendant::xsl:*[
+            self::xsl:apply-imports |
+            self::xsl:apply-templates |
+            self::xsl:call-template |
+            self::xsl:for-each |
+            self::xsl:attribute |
+            self::xsl:element |
+            self::xsl:copy |
+            self::xsl:copy-of |
+            self::xsl:value-of |
+            self::xsl:choose |
+            self::xsl:if |
+            self::xsl:number]]">
+        <xsl:copy>
+            <xsl:copy-of select="@*"/>
+            <xsl:apply-templates/>
+        </xsl:copy>
+    </xsl:template>
+
     <xsl:template match="d-xsl:*" priority="10">
         <xsl:element name="{concat('d2-xsl:', local-name())}">
             <xsl:copy-of select="@*"/>
