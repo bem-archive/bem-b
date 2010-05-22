@@ -77,10 +77,11 @@
     <xsl:template match="xsl:template">
         <xsl:copy>
             <xsl:apply-templates select="." mode="attributes"/>
+            <xsl:apply-templates select="xsl:param"/>
             <xsl:element name="xsl:choose">
                 <xsl:element name="xsl:when">
                     <xsl:attribute name="test">not(descendant::xsl:* | descendant::d-xsl:*)</xsl:attribute>
-                    <xsl:apply-templates/>
+                    <xsl:apply-templates select="node()[not(self::xsl:param)]"/>
                 </xsl:element>
                 <xsl:element name="xsl:when">
                     <xsl:attribute name="test">
