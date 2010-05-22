@@ -144,7 +144,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="xsl:apply-templates | xsl:with-param | xsl:if | xsl:for-each | xsl:variable | xsl:element[contains(@name, '{')] | xsl:value-of" mode="xsl-inline">
+    <xsl:template match="xsl:apply-templates | xsl:with-param | xsl:if | xsl:for-each | xsl:variable | xsl:element[contains(@name, '{')] | xsl:value-of | xsl:choose | xsl:when | xsl:otherwise" mode="xsl-inline">
         <xsl:copy>
             <xsl:apply-templates select="." mode="attributes"/>
             <xsl:apply-templates mode="xsl-inline"/>
