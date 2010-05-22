@@ -144,8 +144,7 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- TODO: with-params -->
-    <xsl:template match="xsl:apply-templates" mode="xsl-inline">
+    <xsl:template match="xsl:apply-templates | xsl:with-param" mode="xsl-inline">
         <xsl:copy>
             <xsl:apply-templates select="." mode="attributes"/>
             <xsl:apply-templates mode="xsl-inline"/>
