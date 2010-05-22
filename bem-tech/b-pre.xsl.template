@@ -29,7 +29,7 @@
 
     <xsl:template match="*
         [self::b:* | self::e:*]
-        [string(@xsl-inline) != 'yes']
+        [@xsl-inline = 'no']
         [descendant::xsl:*[
             self::xsl:apply-imports |
             self::xsl:apply-templates |

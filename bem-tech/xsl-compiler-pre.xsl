@@ -86,7 +86,7 @@
                 <xsl:element name="xsl:when">
                     <xsl:attribute name="test">
                         <xsl:text>(self::b:* | self::e:*) and </xsl:text>
-                        <xsl:text>@xsl-inline = 'yes' and </xsl:text>
+                        <xsl:text>string(@xsl-inline) != 'no' and </xsl:text>
                         <xsl:text>descendant::xsl:*[</xsl:text>
                             <xsl:text>self::xsl:apply-imports | </xsl:text>
                             <xsl:text>self::xsl:apply-templates | </xsl:text>
