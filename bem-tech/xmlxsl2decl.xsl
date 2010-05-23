@@ -18,6 +18,8 @@
         method="text"
     />
 
+    <xsl:param name="output" slect="'json'"/>
+
     <xsl:key name="blocks" match="b:* | tb:* | e:*[@b]" use="bb:block-full-name(.)"/>
     <xsl:key name="elems" match="e:* | te:*" use="bb:item-full-name(.)"/>
     <xsl:key name="mods" match="*[self::b:* | self::e:*]/@*[bb:is-mod(.)] | tm:*" use="bb:mod-full-name(.., .)"/>
@@ -93,9 +95,11 @@
     </func:function>
 
     <xsl:template match="/">
-        <xsl:text>exports.blocks = [</xsl:text>
+        <xsl:if test="$output = 'module'">exports.blocks = </xsl:if>
+        <xsl:text>[</xsl:text>
             <xsl:apply-templates select="//*[generate-id() = generate-id(key('blocks', bb:block-full-name(.)))]" mode="block"/>
-        <xsl:text>];&#10;</xsl:text>
+        <xsl:text>]</xsl:text>
+        <xsl:if test="$output = 'module'">;&#10;</xsl:if>
     </xsl:template>
 
     <xsl:template name="obj">
@@ -104,7 +108,7 @@
 
         <xsl:if test="position() - 1">, </xsl:if>
         <xsl:text>{</xsl:text>
-            <xsl:text>name: '</xsl:text><xsl:value-of select="$name"/><xsl:text>'</xsl:text>
+            <xsl:text>"name": "</xsl:text><xsl:value-of select="$name"/><xsl:text>"</xsl:text>
             <xsl:value-of select="$content"/>
         <xsl:text>}</xsl:text>
     </xsl:template>
@@ -121,7 +125,7 @@
                             'elems',
                             bb:elem-full-name(current(), .)))]"/>
                 <xsl:if test="$elems">
-                    <xsl:text>, elems: [</xsl:text>
+                    <xsl:text>, "elems": [</xsl:text>
                     <xsl:apply-templates select="$elems" mode="elem"/>
                     <xsl:text>]</xsl:text>
                 </xsl:if>
@@ -144,7 +148,7 @@
                     'mods',
                     bb:mod-full-name(current(), .)))]"/>
         <xsl:if test="$mods">
-            <xsl:text>, mods: [</xsl:text>
+            <xsl:text>, "mods": [</xsl:text>
             <xsl:apply-templates select="$mods" mode="mod"/>
             <xsl:text>]</xsl:text>
         </xsl:if>
@@ -160,10 +164,10 @@
                             'vals',
                             bb:val-full-name(.., .)))]"/>
                 <xsl:if test="$vals">
-                    <xsl:text>, vals: [</xsl:text>
+                    <xsl:text>, "vals": [</xsl:text>
                     <xsl:for-each select="$vals">
                         <xsl:if test="position() - 1">, </xsl:if>
-                        <xsl:text>'</xsl:text><xsl:value-of select="bb:mod-val(.)"/><xsl:text>'</xsl:text>
+                        <xsl:text>"</xsl:text><xsl:value-of select="bb:mod-val(.)"/><xsl:text>"</xsl:text>
                     </xsl:for-each>
                     <xsl:text>]</xsl:text>
                 </xsl:if>
