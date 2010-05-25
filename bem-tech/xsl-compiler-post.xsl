@@ -22,16 +22,37 @@
 
     <xsl:template match="*">
         <xsl:copy>
-            <xsl:copy-of select="@*"/>
+            <xsl:apply-templates select="@*"/>
             <xsl:apply-templates/>
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="d2-xsl:*" priority="10">
+    <xsl:template match="@*">
+        <xsl:copy>
+            <xsl:value-of select="."/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="d2-xsl:*">
         <xsl:element name="{concat('xsl:', local-name())}">
             <xsl:copy-of select="@*"/>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
+
+    <xsl:template match="*[d-xsl:attribute | d2-xsl:attribute]">
+        <xsl:copy>
+            <xsl:apply-templates select="@*"/>
+            <xsl:apply-templates select="d-xsl:attribute[not(*)] | d2-xsl:attribute[not(*)]"/>
+            <xsl:apply-templates select="*[not(self::d-xsl:attribute[not(*)] | self::d2-xsl:attribute[not(*)])]"/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="d-xsl:attribute[not(*)] | d2-xsl:attribute[not(*)]">
+        <xsl:attribute name="{@name}">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
+    </xsl:template>
+
 
 </xsl:stylesheet>
