@@ -50,7 +50,7 @@
 
     <xsl:template match="d-xsl:attribute[not(*)] | d2-xsl:attribute[not(*)]">
         <xsl:attribute name="{@name}">
-            <xsl:value-of select="."/>
+            <xsl:value-of select="str:replace(str:replace(., '}', '}}'), '{', '{{')"/>
         </xsl:attribute>
     </xsl:template>
 
