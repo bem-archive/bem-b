@@ -27,7 +27,8 @@
                     <xsl:apply-templates select="."/>
                 </xsl:attribute>
             </xsl:for-each>
-            <xsl:apply-templates/>
+            <xsl:apply-templates select="node()[not(self::mix:mix)]"/>
+            <xsl:apply-templates select="mix:mix"/>
         </xsl:copy>
     </xsl:template>
 
