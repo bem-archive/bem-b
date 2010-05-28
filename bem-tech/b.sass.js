@@ -6,7 +6,7 @@ exports.outFile = function (file) {
 
 exports.newFileContent = function (vars) {
     return [
-        '#{!prefix}',
+        '#{$prefix}',
         '  &' + vars.BlockName,
         (vars.ElemName? '    &__' + vars.ElemName : ''),
         (vars.ModVal?
