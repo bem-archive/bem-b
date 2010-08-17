@@ -65,7 +65,6 @@
     <xsl:template match="b:* | e:*" mode="bb:onclick">
         <xsl:variable name="nodes" select="self::b:* | mix:mix/b:*[not(e:*)]"/>
         <xsl:if test="$nodes">
-<!--
             <xsl:attribute name="onclick">
                 <xsl:text>return {</xsl:text>
                     <xsl:for-each select="$nodes">
@@ -77,7 +76,6 @@
                     </xsl:for-each>
                 <xsl:text>}</xsl:text>
             </xsl:attribute>
--->
         </xsl:if>
     </xsl:template>
 
